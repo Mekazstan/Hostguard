@@ -1,8 +1,7 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
-
-
 import home, account, about
+
 st.set_page_config(
         page_title="HostGuard",
 )
@@ -20,7 +19,6 @@ class MultiApp:
         })
 
     def run():
-        # app = st.sidebar(
         with st.sidebar:        
             app = option_menu(
                 menu_title='HostGuard ',
@@ -36,12 +34,11 @@ class MultiApp:
                 
                 )
 
-        
         if app == "Home":
             home.app()
         if app == "Account":
             account.app()    
-        if app == 'about':
+        if app == 'About':
             about.app()    
                 
     run()            
