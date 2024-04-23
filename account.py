@@ -4,6 +4,7 @@ import sqlite3
 import os
 import bcrypt
 from dotenv import load_dotenv
+from utils.show_button import show_logout_button
 
 # Load the environment variables from .env file
 load_dotenv()
@@ -60,6 +61,7 @@ def login_user(email, password):
 
 # Main app function
 def app():
+    show_logout_button()
     st.title('Welcome to HostGuard :shield:')
     
     # Initialize 'usernames' in session state if it doesn't exist
@@ -109,6 +111,8 @@ def app():
                     print(result)
                     if result:
                         st.session_state['authentication_status'] = 'Authenticated'
+                        st.session_state['username'] = result[0]
+                        st.session_state['email'] = result[2]
                         st.success('Logged in as {}. Please navigate to the HomePage from the pane..'.format(email))                     
                     else:
                         st.warning('Incorrect Username/Password')
@@ -116,11 +120,13 @@ def app():
                     st.warning('User cannot be found. Try sign up 👍')
 
     if st.session_state['authentication_status'] == 'Authenticated':
-        st.write('Welcome to HostGuard!')
-        # User is logged in, show logout button
-        if st.button('Logout'):
-            st.session_state['authentication_status'] = None
-            st.write('You have been logged out.')
+        st.subheader('Welcome to HostGuard, {}!'.format(st.session_state['username']))
+    #     # User is logged in, show logout button
+    #     if st.button('Logout'):
+    #         st.session_state['authentication_status'] = None
+    #         st.session_state['username'] = None
+    #         st.session_state['email'] = None
+    #         st.write('You have been logged out.')
 
     # Rest of the app code
     # ...
