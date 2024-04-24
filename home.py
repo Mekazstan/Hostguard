@@ -90,7 +90,7 @@ def monitor_path(email, directory_path, stop_event):
                     print(f"Didn't send see error ==> {e}")
                     
         # Wait for 2 minutes before checking again
-        time.sleep(60)
+        time.sleep(100)
 
 def app():
     show_logout_button()
