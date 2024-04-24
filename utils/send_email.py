@@ -5,10 +5,10 @@ from email.mime.text import MIMEText
 # Function to send email
 def send_email(to_email, subject, message):
     # Set up the SMTP server
-    smtp_server = "your_smtp_server"
+    smtp_server = "smtp.gmail.com"
     smtp_port = 587
-    smtp_username = "your_smtp_username"
-    smtp_password = "your_smtp_password"
+    smtp_username = "mekastans@gmail.com"
+    smtp_password = "xxxxxxxxx"
 
     # Create a multipart message
     msg = MIMEMultipart()

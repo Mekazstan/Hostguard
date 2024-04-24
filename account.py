@@ -44,7 +44,6 @@ def login_user(email, password):
     user_data = c.fetchone()
     # If user_data is not None, then the email exists in the database
     if user_data:
-        print('1')
         # user_data[1] is the index for the password in the database
         # Check if the hashed password matches the one in the database
         try:
@@ -52,7 +51,6 @@ def login_user(email, password):
             stored_hashed_password = user_data[1]
             # Directly compare the hashed password from the database with the input password
             if bcrypt.checkpw(password_bytes, stored_hashed_password):
-                print('2')
                 return user_data
         except Exception as e:
             print(f"Error during password comparison: {e}")
@@ -120,15 +118,6 @@ def app():
 
     if st.session_state['authentication_status'] == 'Authenticated':
         st.subheader('Welcome to HostGuard, {}!'.format(st.session_state['username']))
-    #     # User is logged in, show logout button
-    #     if st.button('Logout'):
-    #         st.session_state['authentication_status'] = None
-    #         st.session_state['username'] = None
-    #         st.session_state['email'] = None
-    #         st.write('You have been logged out.')
-
-    # Rest of the app code
-    # ...
 
 # Run the app
 if __name__ == '__main__':
