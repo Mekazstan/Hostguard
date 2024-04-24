@@ -108,7 +108,6 @@ def app():
                 try:
                     # Authenticate user
                     result = login_user(email, password)
-                    print(result)
                     if result:
                         st.session_state['authentication_status'] = 'Authenticated'
                         st.session_state['username'] = result[0]
