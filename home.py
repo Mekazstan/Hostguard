@@ -31,7 +31,6 @@ def create_file_monitoring_table():
 # Function to insert monitored directory path into the database
 def insert_monitored_path(directory_path, username):
     # If the path is unique, insert it into the database
-    create_file_monitoring_table()
     # Check if the directory path already exists
     c.execute("SELECT * FROM file_monitoring WHERE directory_path = ? AND username = ?", (directory_path, username))
     existing_path = c.fetchone()
@@ -66,7 +65,7 @@ def monitor_path(email, directory_path, stop_event):
             var_deleted_files = deleted_files(old_file, new_file)
             var_new_files = new_files(old_file, new_file)
             
-            if var_changed_files == [] and var_deleted_files == [] and var_new_files == []:
+            if var_changed_files != [] or var_deleted_files != [] or var_new_files != []:
                 email_subject = "HostGuard Report: Changes Detected"
                 email_message = f"Changes were detected in the monitored directory {directory_path}:\n\n"
                 email_message += "NEW FILES\n"
@@ -91,10 +90,11 @@ def monitor_path(email, directory_path, stop_event):
                     print(f"Didn't send see error ==> {e}")
                     
         # Wait for 2 minutes before checking again
-        time.sleep(10)
+        time.sleep(60)
 
 def app():
     show_logout_button()
+    create_file_monitoring_table()
     # Check if the user is authenticated
     if 'authentication_status' in st.session_state and st.session_state['authentication_status'] == 'Authenticated':
         # Get the username of the currently logged-in user
@@ -110,7 +110,7 @@ def app():
             if os.path.isdir(directory_path) or os.path.isfile(directory_path):
                 # Call function to insert monitored directory path into the database
                 insert_monitored_path(directory_path, username)
-                monitor_path(email, directory_path)
+                monitor_path(email, directory_path, stop_event)
                 st.success(f"Path {directory_path} Saved.")   
             else:
                 st.error("Invalid directory path. Please enter a valid path.")

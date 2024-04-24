@@ -6,6 +6,7 @@
 /home/chukwuemeka/Documents/Me/Project Work/APP/test.py	276c3d6eeda49e2a77493da1d54c4fda
 /home/chukwuemeka/Documents/Me/Project Work/APP/readme.md	7cd3aa3dfab4a4abe61dd9c0f4286ae5
 /home/chukwuemeka/Documents/Me/Project Work/1,2&3.docx	c3caffd4a67ebabeb3ea0f5fc99729a1
+/home/chukwuemeka/Documents/Me/text.txt	078793d67652e076ede5c8ee1b30452d
 /home/chukwuemeka/Documents/Me/Me-real.doc	11dd849d73fe0e136c49322fa605cba5
 /home/chukwuemeka/Documents/Me/Enda Invoice/script.txt	310d51f717b65947da8e9250dc2cb5eb
 /home/chukwuemeka/Documents/Me/Enda Invoice/Invoice (1).xlsx	cc9d83b2b3c05717b90745208222f79d
