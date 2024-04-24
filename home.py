@@ -1,6 +1,7 @@
 import streamlit as st
 import os
 from utils.components import changed_files, create_hashfile, deleted_files, find_files, generate_md5, new_files, read_file
+from utils.send_email import send_email
 from utils.show_button import show_logout_button
 import sqlite3
 
@@ -40,7 +41,7 @@ def get_monitored_paths(username):
     return [path[0] for path in monitored_paths]
 
 # Function to monitor the path
-def monitor_path(directory_path):
+def monitor_path(email, directory_path):
     # Replace '/' and '\' characters in directory_path with '_'
     filename = directory_path.replace('/', '_').replace('\\', '_')
     
@@ -56,28 +57,29 @@ def monitor_path(directory_path):
         var_deleted_files = deleted_files(old_file, new_file)
         var_new_files = new_files(old_file, new_file)
         
-        print("Report")
-        print("------")
         if var_changed_files == [] and var_deleted_files == [] and var_new_files == []:
-            print("There where no changes in the folder")
+            email_subject = "HostGuard Report: No Changes Detected"
+            email_message = f"No changes were detected in the monitored directory {directory_path}."
         else:
-            print("WARNING!\n")
-            print("NEW FILES")
-            print("---------")
-            for i in var_new_files:
-                print(i)
+            email_subject = "HostGuard Report: Changes Detected"
+            email_message = f"Changes were detected in the monitored directory {directory_path}:\n\n"
+            email_message += "NEW FILES\n"
+            email_message += "---------\n"
+            for file in var_new_files:
+                email_message += file + "\n"
 
-            print("\n")
-            print("CHANGED FILES")
-            print("-------------")
-            for i in var_changed_files:
-                print(i)
+            email_message += "\nCHANGED FILES\n"
+            email_message += "-------------\n"
+            for file in var_changed_files:
+                email_message += file + "\n"
 
-            print("\n")
-            print("REMOVED FILES")
-            print("-------------")
-            for i in var_deleted_files:
-                print(i)
+            email_message += "\nREMOVED FILES\n"
+            email_message += "-------------\n"
+            for file in var_deleted_files:
+                email_message += file + "\n"
+
+        # Send the email
+        send_email(email, email_subject, email_message)
 
 def app():
     show_logout_button()
@@ -85,6 +87,7 @@ def app():
     if 'authentication_status' in st.session_state and st.session_state['authentication_status'] == 'Authenticated':
         # Get the username of the currently logged-in user
         username = st.session_state.get('username', 'Guest')
+        email = st.session_state.get('email', 'tester@gmail.com')
         st.header(f"Hi {username}👋, What folder or do you want to monitor?")
 
         # Input field for directory path
@@ -95,7 +98,7 @@ def app():
             if os.path.isdir(directory_path) or os.path.isfile(directory_path):
                 # Call function to insert monitored directory path into the database
                 insert_monitored_path(directory_path, username)
-                monitor_path(directory_path)
+                monitor_path(email, directory_path)
                 st.success(f"Path {directory_path} Saved.")   
             else:
                 st.error("Invalid directory path. Please enter a valid path.")
@@ -112,8 +115,8 @@ def app():
                     with col2:
                         if st.button("Start Monitoring", key=f"monitor_{idx}"):
                             # Start monitoring
-                            monitor_path(directory_path)
-                            st.success(f"Monitoring started for path: {idx}")
+                            monitor_path(email, directory_path)
+                            st.success(f"Path {idx} is being monitored.")
         except:
             pass
     else:
