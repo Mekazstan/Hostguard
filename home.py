@@ -55,6 +55,29 @@ def monitor_path(directory_path):
         var_changed_files = changed_files(old_file, new_file)
         var_deleted_files = deleted_files(old_file, new_file)
         var_new_files = new_files(old_file, new_file)
+        
+        print("Report")
+        print("------")
+        if var_changed_files == [] and var_deleted_files == [] and var_new_files == []:
+            print("There where no changes in the folder")
+        else:
+            print("WARNING!\n")
+            print("NEW FILES")
+            print("---------")
+            for i in var_new_files:
+                print(i)
+
+            print("\n")
+            print("CHANGED FILES")
+            print("-------------")
+            for i in var_changed_files:
+                print(i)
+
+            print("\n")
+            print("REMOVED FILES")
+            print("-------------")
+            for i in var_deleted_files:
+                print(i)
 
 def app():
     show_logout_button()
