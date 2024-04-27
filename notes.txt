@@ -1,0 +1,3 @@
+COOKIE_NAME=hostguard_session
+COOKIE_KEY=cdbc1cb015c97dab6d175c28c43b56fa
+EMAIL_PASSWORD=ofnvtfkxgdegivzms

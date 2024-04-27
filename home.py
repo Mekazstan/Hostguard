@@ -90,7 +90,7 @@ def monitor_path(email, directory_path, stop_event):
                     print(f"Didn't send see error ==> {e}")
                     
         # Wait for 2 minutes before checking again
-        time.sleep(100)
+        time.sleep(10)
 
 def app():
     show_logout_button()
@@ -110,7 +110,7 @@ def app():
             if os.path.isdir(directory_path) or os.path.isfile(directory_path):
                 # Call function to insert monitored directory path into the database
                 insert_monitored_path(directory_path, username)
-                monitor_path(email, directory_path, stop_event)
+                # monitor_path(email, directory_path, stop_event)
                 st.success(f"Path {directory_path} Saved.")   
             else:
                 st.error("Invalid directory path. Please enter a valid path.")
